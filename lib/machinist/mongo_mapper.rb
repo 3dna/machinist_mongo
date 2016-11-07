@@ -23,18 +23,18 @@ module Machinist
 
   class MongoMapperAdapter
     def self.has_association?(object, attribute)
-      object.class.associations[attribute]
+      object.class.relations[attribute]
     end
 
     def self.class_for_association(object, attribute)
-      association = object.class.associations[attribute]
+      association = object.class.relations[attribute]
       association && association.klass
     end
 
     def self.assigned_attributes_without_associations(lathe)
       attributes = {}
       lathe.assigned_attributes.each_pair do |attribute, value|
-        association = lathe.object.class.associations[attribute]
+        association = lathe.object.class.relations[attribute]
         if association && association.belongs_to? && !value.nil?
           attributes[association.foreign_key.to_sym] = value.id
         else
